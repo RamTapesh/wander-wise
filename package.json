@@ -1,0 +1,25 @@
+{
+  "name": "wander-wise",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "dotenvx run -- node src/index.js",
+    "dev": "dotenvx run -- nodemon src/index.js"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.51.1",
+    "bcrypt": "^6.0.0",
+    "express": "^5.1.0",
+    "express-validator": "^7.3.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.0.0",
+    "mongoose": "^8.19.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
