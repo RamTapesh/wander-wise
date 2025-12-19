@@ -2,24 +2,29 @@ import express from "express";
 import connectDB from "./config/db.js";
 import HANDLERS from "./handlers/index.js";
 import errorMiddleware from "./middlewares/error.js";
-
+import { authMiddleware } from "./middlewares/auth.js";
 
 const app = express();
 
+// DB connection
+connectDB()
+  .then(() => console.log("DB connected"))
+  .catch((err) => console.error(err));
 
-connectDB() 
-.then(() =>{})
-.catch(() =>{})
-.finally(() =>{});
+// Body parser
 app.use(express.json());
 
+// Auth middleware (before routes)
+app.use(authMiddleware);
 
+// Routes
 app.get("/", (req, res) => {
   res.send("Welcome to Wander Wise");
 });
 
 app.use("/", HANDLERS);
-app.use(express.json());
+
+// Error handler (always last)
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT || 5000, () =>

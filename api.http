@@ -1,18 +1,21 @@
 @baseUrl = http://localhost:3000
 @userId = 691af6ce679594af902955ed
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTMyYjAyNGIwYzI2MmRmNDM2NDJiZmIiLCJpYXQiOjE3NjYwNTI1NTAsImV4cCI6MTc2NjEzODk1MH0.AroKc6ny_3GnUJihgxRhxB3QnIcY25q4HsrYghYx7E0
 
 ### Create a new user
 POST {{baseUrl}}/users
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "name": "John Doe",
-  "email": "john.doe6@example.com",
+  "email": "john.doe8@example.com",
   "password": "password"
 }
 
 ### Get all users
-GET {{baseUrl}}/users
+GET {{baseUrl}}/users?limit=5&page=1&search=jo&sort=name&order=asc
+Authorization: Bearer {{token}}
 
 ### Get a user by id
 GET {{baseUrl}}/users/{{userId}}
@@ -48,4 +51,19 @@ Content-Type: application/json
 {
   "email": "john.doe7@example.com",
   "password": "password"
+}
+
+### create a new trip
+POST {{baseUrl}}/trips
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Trip to the moon",
+  "startDate": "2025-12-15",
+  "endDate": "2025-12-16",
+  "budget": {
+    "total": 1000
+  },
+  "destinations": ["Moon", "Mars", "Jupiter"]
 }

@@ -1,12 +1,9 @@
 import { body } from "express-validator";
 import User from "../models/user.js";
-export const createUser = (data) => {
-  // validation logic
-};
-
 
 export const createUserValidator = [
   body("name").notEmpty().withMessage("Name is required"),
+
   body("email")
     .notEmpty()
     .withMessage("Email is required")
@@ -19,6 +16,7 @@ export const createUserValidator = [
       }
       return true;
     }),
+
   body("password")
     .notEmpty()
     .withMessage("Password is required")
@@ -28,21 +26,23 @@ export const createUserValidator = [
 
 export const updateUserValidator = [
   body("name").optional().notEmpty().withMessage("Name cannot be empty"),
+
   body("email")
     .optional()
     .isEmail()
     .withMessage("Invalid email")
     .custom(async (value, { req }) => {
       const user = await User.findOne({
-         email: value,
+        email: value,
         _id: { $ne: req.params.id },
       });
       if (user) {
         throw new Error("This email has already been taken");
       }
-        return true;
+      return true;
     }),
-    body("password")
+
+  body("password")
     .optional()
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters long"),

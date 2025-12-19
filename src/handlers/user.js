@@ -1,13 +1,18 @@
 import { Router } from "express";
 import {
   createUser,
-  findAllUsers,
-  findUserById,
-  updateUserById,
-  deleteUserById,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
 } from "../services/user.js";
-import { createUserValidator } from "../validators/user.js";
-import useValidator from "../middlewares/usevalidator.js";
+
+
+import {
+  createUserValidator,
+  updateUserValidator,
+} from "../validators/user.js";
+import useValidator from "../middlewares/validator.js";
 
 const USER_ROUTER = Router();
 
@@ -24,37 +29,41 @@ USER_ROUTER.post(
   }
 );
 
-USER_ROUTER.get("/", async (req, res) => {
+USER_ROUTER.get("/", async (req, res, next) => {
   try {
-    const users = await findAllUsers();
+    const users = await getAllUsers(req.query);
     res.status(200).json(users);
   } catch (error) {
     next(error);
   }
 });
 
-USER_ROUTER.get("/:id", async (req, res) => {
+USER_ROUTER.get("/:id", async (req, res, next) => {
   try {
-    const user = await findUserById(req.params.id);
+    const user = await getUserById(req.params.id);
     res.status(200).json(user);
   } catch (error) {
     next(error);
   }
 });
 
-USER_ROUTER.patch("/:id", async (req, res) => {
-  try {
-    const user = await updateUserById(req.params.id, req.body);
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
+USER_ROUTER.patch(
+  "/:id",
+  useValidator(updateUserValidator),
+  async (req, res, next) => {
+    try {
+      const user = await updateUser(req.params.id, req.body);
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-USER_ROUTER.delete("/:id", async (req, res) => {
+USER_ROUTER.delete("/:id", async (req, res, next) => {
   try {
-    const user = await deleteUserById(req.params.id);
-    res.status(200).json(user);
+    const result = await deleteUser(req.params.id);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }

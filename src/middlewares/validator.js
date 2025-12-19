@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import ValidationError from "../errors/validation-error.js";
 
-const useValidator =
+const validator =
   (validators = []) =>
   async (req, res, next) => {
     try {
@@ -22,4 +22,4 @@ const useValidator =
     }
   };
 
-export default useValidator;
+export default validator;
