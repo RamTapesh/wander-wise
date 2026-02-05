@@ -13,7 +13,7 @@ import {
   updateBagaggeValidator,
 } from "../validators/baggage.js";
 
-const BAGGAGE_ROUTER = Router();
+const BAGGAGE_ROUTER = Router({ mergeParams: true });
 
 BAGGAGE_ROUTER.post(
   "/",
@@ -22,7 +22,7 @@ BAGGAGE_ROUTER.post(
     try {
       const baggage = await createBaggage({
         ...req.body,
-        user: req.user.userId,
+        user: req.user.id,
         trip: req.params.tripId,
       });
       res.status(201).json(baggage);
@@ -34,7 +34,7 @@ BAGGAGE_ROUTER.post(
 
 BAGGAGE_ROUTER.get("/", async (req, res, next) => {
   try {
-    const baggages = await getAllBaggages(req.params.tripId, req.user.userId);
+    const baggages = await getAllBaggages(req.params.tripId, req.user.id);
     res.status(200).json(baggages);
   } catch (error) {
     next(error);
@@ -45,7 +45,7 @@ BAGGAGE_ROUTER.get("/:id", async (req, res, next) => {
   try {
     const baggage = await getBaggageById(
       req.params.id,
-      req.user.userId,
+      req.user.id,
       req.params.tripId
     );
     res.status(200).json(baggage);
@@ -61,7 +61,7 @@ BAGGAGE_ROUTER.put(
     try {
       const baggage = await updateBaggage(
         req.params.id,
-        req.user.userId,
+        req.user.id,
         req.params.tripId,
         req.body
       );
@@ -76,7 +76,7 @@ BAGGAGE_ROUTER.delete("/:id", async (req, res, next) => {
   try {
     const baggage = await deleteBaggage(
       req.params.id,
-      req.user.userId,
+      req.user.id,
       req.params.tripId
     );
     res.status(200).json(baggage);

@@ -13,14 +13,18 @@ import {
   updateItineraryValidator,
 } from "../validators/itinerary.js";
 
-const ITINERARY_ROUTER = Router();
+const ITINERARY_ROUTER = Router({mergeParams: true});
 
 ITINERARY_ROUTER.post(
   "/",
   useValidator(createItineraryValidator),
   async (req, res, next) => {
     try {
-      const itinerary = await createItinerary(req.body);
+      const itinerary = await createItinerary({
+        ...req.body,
+        trip: req.params.tripId,
+        user: req.user.id,
+      });
       res.status(201).json(itinerary);
     } catch (error) {
       next(error);
@@ -32,7 +36,7 @@ ITINERARY_ROUTER.get("/", async (req, res, next) => {
   try {
     const itineraries = await getAllItineraries(
       req.params.tripId,
-      req.user._id
+      req.user.id
     );
     res.json(itineraries);
   } catch (error) {
@@ -44,7 +48,7 @@ ITINERARY_ROUTER.get("/:id", async (req, res, next) => {
   try {
     const itinerary = await getItineraryById(
       req.params.id,
-      req.user._id,
+      req.user.id,
       req.params.tripId
     );
     res.json(itinerary);
@@ -60,7 +64,7 @@ ITINERARY_ROUTER.patch(
     try {
       const itinerary = await updateItinerary(
         req.params.id,
-        req.user._id,
+        req.user.id,
         req.params.tripId,
         req.body
       );

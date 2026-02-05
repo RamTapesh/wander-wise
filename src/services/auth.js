@@ -9,8 +9,8 @@ import { compare } from "bcrypt";
 export const register = async (userData) => {
   const user = await createUser(userData);
 
-  const token = await signAsync(
-    { userId: user._id.tostring() },
+  const token = await jwt.sign(
+    { userId: user._id.toString() },
     process.env.JWT_SECRET_KEY,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,
@@ -32,7 +32,7 @@ export const login = async (userData) => {
     throw new UnauthorizedError("Invalid credentials");
   }
   const token = jwt.sign(
-    { userId: user._id.tostring() },
+    { userId: user._id.toString() },
     process.env.JWT_SECRET_KEY,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,

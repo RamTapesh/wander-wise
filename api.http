@@ -1,18 +1,25 @@
 @baseUrl = http://localhost:3000
-@userId = 691af6ce679594af902955ed
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTMyYjAyNGIwYzI2MmRmNDM2NDJiZmIiLCJpYXQiOjE3NjYwNTI1NTAsImV4cCI6MTc2NjEzODk1MH0.AroKc6ny_3GnUJihgxRhxB3QnIcY25q4HsrYghYx7E0
+@userId =694acee6c45450c0a4a8bfb9
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTRhY2VlNmM0NTQ1MGMwYTRhOGJmYjkiLCJpYXQiOjE3NjY3MzAxODEsImV4cCI6MTc2NjgxNjU4MX0.QmDsFPvknMT1ftccVguiYpzjsiiti2mV3c5jS11nDCs
 
-### Create a new user
 POST {{baseUrl}}/users
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "John Doe",
+  "name": "aadseshDoe",
+  "email": "aadesh.doe8@example.com",
+  "password": "password",
+  "role": "user"
+}
+### Auth login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
   "email": "john.doe8@example.com",
   "password": "password"
 }
-
 ### Get all users
 GET {{baseUrl}}/users?limit=5&page=1&search=jo&sort=name&order=asc
 Authorization: Bearer {{token}}
@@ -37,6 +44,7 @@ DELETE {{baseUrl}}/users/{{userId}}
 ### Register a new user
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
+
 
 {
   "name": "John Doe",
@@ -66,4 +74,33 @@ Authorization: Bearer {{token}}
     "total": 1000
   },
   "destinations": ["Moon", "Mars", "Jupiter"]
+}
+
+### Get all trips
+GET {{baseUrl}}/trips
+Authorization: Bearer {{token}}
+
+### Get a trip by id
+GET {{baseUrl}}/trips/694bc528bb8dfdfae064622c
+Authorization: Bearer {{token}}
+
+### Create a new baggage
+POST {{baseUrl}}/694bc528bb8dfdfae064622c/baggages
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Baggage 1"
+}
+
+### Invite collaborators to a trip
+POST {{baseUrl}}/trips/694e5b9cead6bfa84db481ec/invite
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "collaboratorEmails": [
+   "ganeshkhawas004@gmail.com"
+   
+  ]
 }
